@@ -1,25 +1,19 @@
-from __future__ import division
-from sympy import *
-import pandas
 import matplotlib.pyplot as plt
-import numpy as np
+import pandas
+from sympy import Matrix
 
 
 def plot_graph(color, draw=False):
     def wrapper(fun):
-        def dec(*args):
+        def plotter(*args):
             set1, set2 = fun(*args)
-
             plt.plot(set1[0], set1[1], zorder=1, c=color, linewidth=.5)
             plt.scatter(set2[0], set2[1], zorder=3, c=color, s=10)
-
             if draw:
                 plt.xlabel('x')
                 plt.ylabel('y')
                 plt.show()
-
-        return dec
-
+        return plotter
     return wrapper
 
 
@@ -60,7 +54,7 @@ def plot_original(data):
 
     m, b = lin_reg(data)
     x_values = [min(data[data.columns[0]]), max(data[data.columns[0]])]
-    y_values = m * np.array(x_values) + b
+    y_values = list(map(lambda x: m * x + b, x_values))
 
     return (x_values, y_values), \
            (data[data.columns[0]], data[data.columns[1]])
@@ -68,19 +62,18 @@ def plot_original(data):
 
 @plot_graph(color='g', draw=True)
 def plot_rotated(rotated_points):
-    first_column = rotated_points.col(0).tolist()
-
-    # Rotated points with principal component axis
-    return ([min(first_column), max(first_column)], [0, 0]), \
-           (rotated_points.col(0), rotated_points.col(1))
+    try:
+        return ([min(rotated_points.col(0)), max(rotated_points.col(0))], [0, 0]), \
+               (rotated_points.col(0), rotated_points.col(1))
+    except IndexError:
+        return ([min(rotated_points.col(0)), max(rotated_points.col(0))], [0, 0]), \
+               (rotated_points.col(0), [0 for _ in range(len(rotated_points.col(0)))])
 
 
 @plot_graph(color='r', draw=True)
 def plot_rotated_flatten(rotated_points):
-    first_column = rotated_points.col(0).tolist()
-
-    return ([min(first_column), max(first_column)], [0, 0]),\
-           (rotated_points.col(0), zeros(1, len(rotated_points.col(0))))
+    return ([min(rotated_points.col(0)), max(rotated_points.col(0))], [0, 0]),\
+           (rotated_points.col(0), [0 for _ in range(len(rotated_points.col(0)))])
 
 
 if __name__ == '__main__':
