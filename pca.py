@@ -1,20 +1,7 @@
-import matplotlib.pyplot as plt
 import pandas
 from sympy import Matrix
 
-
-def plot_graph(color, draw=False):
-    def wrapper(fun):
-        def plotter(*args):
-            set1, set2 = fun(*args)
-            plt.plot(set1[0], set1[1], zorder=1, c=color, linewidth=.5)
-            plt.scatter(set2[0], set2[1], zorder=3, c=color, s=10)
-            if draw:
-                plt.xlabel('x')
-                plt.ylabel('y')
-                plt.show()
-        return plotter
-    return wrapper
+from decorators import plot_graph
 
 
 def main():
@@ -72,7 +59,7 @@ def plot_rotated(rotated_points):
 
 @plot_graph(color='r', draw=True)
 def plot_rotated_flatten(rotated_points):
-    return ([min(rotated_points.col(0)), max(rotated_points.col(0))], [0, 0]),\
+    return ([min(rotated_points.col(0)), max(rotated_points.col(0))], [0, 0]), \
            (rotated_points.col(0), [0 for _ in range(len(rotated_points.col(0)))])
 
 
