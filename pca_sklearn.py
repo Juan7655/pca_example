@@ -14,17 +14,22 @@ def main():
 
     sc = StandardScaler()
     x_train = sc.fit_transform(x_train)
-    x_test = sc.transform(x_test)
+    # x_test = sc.transform(x_test)
+
     pca = PCA(n_components=2)
-    x_train = pca.fit_transform(x_train).T
-    x_test = pca.transform(x_test)
-
+    transformed = pca.fit_transform(x_train).T
+    # x_test = pca.transform(x_test)
     plot_original(data)
-    plot_rotated(x_train)
-    plot_rotated_flatten(x_train)
+    plot_rotated(transformed)
+
+    pca = PCA(n_components=1)
+    transformed = pca.fit_transform(x_train).T
+    # x_test = pca.transform(x_test)
+    plot_original(data)
+    plot_rotated(transformed)
 
 
-@plot_graph(color='b', draw=True)
+@plot_graph(color='b', draw=False)
 def plot_original(data):
     def lin_reg(df):
         x, y = df[df.columns[0]], df[df.columns[1]]
@@ -39,16 +44,12 @@ def plot_original(data):
            (data[data.columns[0]], data[data.columns[1]])
 
 
-@plot_graph(color='g', draw=True)
-def plot_rotated(rotated_points):
-    return ([min(rotated_points[0]), max(rotated_points[0])], [0, 0]), \
-           (rotated_points[0], rotated_points[1])
-
-
 @plot_graph(color='r', draw=True)
-def plot_rotated_flatten(rotated_points):
+def plot_rotated(rotated_points):
+    y_values = rotated_points[1] if rotated_points.shape[0] > 1 \
+        else [0 for _ in range(rotated_points[0].shape[0])]
     return ([min(rotated_points[0]), max(rotated_points[0])], [0, 0]), \
-           (rotated_points[0], [0 for _ in range(len(rotated_points[0]))])
+           (rotated_points[0], y_values)
 
 
 if __name__ == '__main__':
