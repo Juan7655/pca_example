@@ -4,6 +4,7 @@ def normalizer(fun):
         for col in data:
             data[col] = fun(data[col])
         return data
+
     return wrapped
 
 
@@ -15,6 +16,16 @@ def recenter(data_col):
 @normalizer
 def stretch(data_col):
     return data_col / data_col.std()
+
+
+@normalizer
+def stretch_to_unary(data_col):
+    return data_col / (data_col.max() - data_col.min())
+
+
+@normalizer
+def unary_box_normalizer(data_col):
+    return (data_col - data_col.min()) / (data_col.max() - data_col.min())
 
 
 @normalizer
