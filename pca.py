@@ -7,7 +7,7 @@ from Utils import plot_rotated
 
 def main():
     # import data
-    data = pd.read_csv("data-large.csv")
+    data = pd.read_csv("data/data-large.csv")
     rotated_points = define_matrix_space(features=2, data=data)
 
     # plot_rotated(data, lin_reg, color='b', draw=False)

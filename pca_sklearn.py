@@ -9,7 +9,7 @@ from Utils import plot_rotated
 
 def main():
     # import data
-    data = pandas.read_csv("data-large_3d.csv")
+    data = pandas.read_csv("data/data-large_3d.csv")
     x_train, x_test, y_train, y_test = train_test_split(data[['x', 'y']], data.cat, test_size=0.01, random_state=0)
 
     sc = StandardScaler()
