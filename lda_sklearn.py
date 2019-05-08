@@ -25,7 +25,7 @@ def main():
     plot_rotated(transformed[transformed[0] >= 0.25], lin_reg, color='r', draw=True)
 
 
-def lin_reg(df) -> (float, float):
+def lin_reg(df: pandas.DataFrame) -> (float, float):
     x, y = df[df.columns[0]], df[df.columns[1]]
     lr = LinearRegression().fit(x.values.reshape(-1, 1), y.values.reshape(-1, 1))
     return lr.coef_[0][0], lr.intercept_[0]

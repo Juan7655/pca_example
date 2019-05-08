@@ -1,8 +1,10 @@
+import types
+
 import matplotlib.pyplot as plt
 from pandas import DataFrame
 
 
-def plot_graph(fun):
+def plot_graph(fun: types.FunctionType):
     def plotter(*args, **kwargs):
             set1, set2 = fun(*args, **kwargs)
             plt.plot(set1[0], set1[1], zorder=2, c=kwargs['color'], linewidth=.5)
@@ -15,7 +17,7 @@ def plot_graph(fun):
 
 
 @plot_graph
-def plot_rotated(df: DataFrame, lin_reg, *args, **kwargs):
+def plot_rotated(df: DataFrame, lin_reg: types.FunctionType, *args, **kwargs):
     if df.shape[1] > 1:
         y_values = df[df.columns[1]]
         m, b = lin_reg(df)

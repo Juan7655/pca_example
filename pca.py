@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 
-import data_normalizer
+import normalizer
 from Utils import plot_rotated
 
 
@@ -14,10 +14,10 @@ def main():
     plot_rotated(rotated_points, lin_reg, color='r', draw=True)
 
 
-def define_matrix_space(features, data) -> pd.DataFrame:
+def define_matrix_space(features: int, data: pd.DataFrame) -> pd.DataFrame:
     # Keep original data for later use. Copy values to apply normalization
     # data_norm = data_normalizer.stretch_to_unary(data)
-    data_norm = data_normalizer.create_normalizer(lambda col: (col - col.mean()) / col.std())(data)
+    data_norm = normalizer.Map(lambda col: (col - col.mean()) / col.std(), data)
 
     # Eigenvectors for the covariance matrix
     np_vec = np.linalg.eig(data.cov())[1]
