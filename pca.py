@@ -16,7 +16,8 @@ def main():
 
 def define_matrix_space(features, data) -> pd.DataFrame:
     # Keep original data for later use. Copy values to apply normalization
-    data_norm = data_normalizer.stretch_to_unary(data)
+    # data_norm = data_normalizer.stretch_to_unary(data)
+    data_norm = data_normalizer.create_normalizer(lambda col: (col - col.mean()) / col.std())(data)
 
     # Eigenvectors for the covariance matrix
     np_vec = np.linalg.eig(data.cov())[1]

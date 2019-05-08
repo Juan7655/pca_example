@@ -8,31 +8,8 @@ def normalizer(fun):
     return wrapped
 
 
-@normalizer
-def recenter(data_col):
-    return data_col - data_col.mean()
-
-
-@normalizer
-def stretch(data_col):
-    return data_col / data_col.std()
-
-
-@normalizer
-def stretch_to_unary(data_col):
-    return data_col / (data_col.max() - data_col.min())
-
-
-@normalizer
-def unary_box_normalizer(data_col):
-    return (data_col - data_col.min()) / (data_col.max() - data_col.min())
-
-
-@normalizer
-def stretch_and_recenter(data_col):
-    return (data_col - data_col.mean()) / data_col.std()
-
-
-@normalizer
-def identity(data_col):
-    return data_col
+def create_normalizer(fun):
+    @normalizer
+    def apply(data_col):
+        return fun(data_col)
+    return apply
